@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CbsStudents.Data;
 using cbsStudents.Models.Entities;
-
+//test
 namespace cbsStudents.Controllers
 {
     public class CommentsController : Controller
