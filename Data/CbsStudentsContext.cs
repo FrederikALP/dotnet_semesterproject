@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using cbsStudents.Models.Entities;
+using cbsStudents.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -22,9 +23,12 @@ namespace CbsStudents.Data
             this.UsersSeed(builder);
             this.SeedPosts(builder);
             this.SeedComments(builder);
+            this.SeedEvents(builder);
         }
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Event> Events { get; set; }
+        //public DbSet<cbsStudents.Models.Entities.Event> Event { get; set; }
 
         public DbSet<cbsStudents.Models.Entities.Comment> Comment { get; set; }
 
@@ -61,6 +65,15 @@ namespace CbsStudents.Data
                 new Post() { Id = 1, Created = DateTime.Now, Text = "This is post 1", Title = "Post no 1", Status = PostStatus.DRAFT },
                 new Post() { Id = 2, Created = DateTime.Now, Text = "This is post 2", Title = "Post no 2", Status = PostStatus.DRAFT },
                 new Post() { Id = 3, Created = DateTime.Now, Text = "This is post 3", Title = "Post no 3", Status = PostStatus.DRAFT }
+            );
+        }
+
+        private void SeedEvents(ModelBuilder builder)
+        {
+            builder.Entity<Event>().HasData(
+                new Event() { EventId = 1, Created = DateTime.Now, EventText = "This is Event 1", Location = "CBS", EventTitle = "Post no 1", Status = PostStatus.DRAFT, UserId= "1" },
+                new Event() { EventId = 2, Created = DateTime.Now, EventText = "This is Event 2", Location = "Rådhuspladsen", EventTitle = "Post no 2", Status = PostStatus.PUBLISHED, UserId= "1" },
+                new Event() { EventId = 3, Created = DateTime.Now, EventText = "This is Event 3", Location = "KEA", EventTitle = "Post no 3", Status = PostStatus.PUBLISHED, UserId= "1" }
             );
         }
 

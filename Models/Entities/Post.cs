@@ -8,7 +8,7 @@ public class Post
     public int Id { get; set; }
 
 
-    [Required(ErrorMessage = "Please fill out title")]
+    [Required(ErrorMessage = "Please fill out Title")]
     [MinLength(3, ErrorMessage = "Minimum 3 characters")]
     public string? Title { get; set; }
 
