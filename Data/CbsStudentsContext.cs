@@ -71,9 +71,9 @@ namespace CbsStudents.Data
         private void SeedEvents(ModelBuilder builder)
         {
             builder.Entity<Event>().HasData(
-                new Event() { EventId = 1, Created = DateTime.Now, EventText = "This is Event 1", Location = "CBS", EventTitle = "Post no 1", Status = PostStatus.DRAFT, UserId= "1" },
-                new Event() { EventId = 2, Created = DateTime.Now, EventText = "This is Event 2", Location = "Rådhuspladsen", EventTitle = "Post no 2", Status = PostStatus.PUBLISHED, UserId= "1" },
-                new Event() { EventId = 3, Created = DateTime.Now, EventText = "This is Event 3", Location = "KEA", EventTitle = "Post no 3", Status = PostStatus.PUBLISHED, UserId= "1" }
+                new Event() { EventId = 1, EventTitle = "Event no 1", EventText = "This is Event 1", Location = "CBS", StartDate = DateTime.Now, EndDate = DateTime.Now, PhotoURL = "Event no 1", Responsible = "Event no 1", Collaboration = "Event no 1", ReservedRoom = "Event no 1", Status = PostStatus.DRAFT, UserId= "1" },
+                new Event() { EventId = 2, EventTitle = "Event no 2", EventText = "Event no 2", Location = "KEA", StartDate = DateTime.Now, EndDate = DateTime.Now, PhotoURL = "Event no 2", Responsible = "Event no 2", Collaboration = "Event no 2", ReservedRoom = "Event no 2", Status = PostStatus.DRAFT, UserId= "1" },                
+                new Event() { EventId = 3, EventTitle = "Event no 3", EventText = "Event no 3", Location = "Home", StartDate = DateTime.Now, EndDate = DateTime.Now, PhotoURL = "Event no 3", Responsible = "Event no 3", Collaboration = "Event no 3", ReservedRoom = "Event no 3", Status = PostStatus.DRAFT, UserId= "1" }
             );
         }
 

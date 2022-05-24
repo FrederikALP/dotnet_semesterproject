@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,8 +22,7 @@ namespace cbsStudents.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            var cbsStudentsContext = _context.Events.Include(c => c.User);
-            return View(await cbsStudentsContext.ToListAsync());
+            return View(await _context.Events.ToListAsync());
         }
 
         // GET: Events/Details/5
@@ -57,7 +56,7 @@ namespace cbsStudents.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventText,Location,StartDate,EndDate,PhotoURL,Responsible,Collaboration,ReservedRoom,Status,UserId")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventText,Location,Created,Status,UserId")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +90,7 @@ namespace cbsStudents.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTitle,EventText,Location,StartDate,EndDate,PhotoURL,Responsible,Collaboration,ReservedRoom,Status,UserId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTitle,EventText,Location,Created,Status,UserId")] Event @event)
         {
             if (id != @event.EventId)
             {
@@ -166,3 +165,4 @@ namespace cbsStudents.Controllers
         }
     }
 }
+*/

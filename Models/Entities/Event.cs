@@ -18,8 +18,19 @@ public class Event
 
     public string? Location { get; set; }
 
-    [DataType(DataType.Date)]
-    public DateTime Created { get; set; }
+    [DataType(DataType.DateTime)]
+    public DateTime StartDate { get; set; }
+
+    [DataType(DataType.DateTime)]
+    public DateTime EndDate { get; set; }
+
+    public string? PhotoURL { get; set; }
+
+    public string? Responsible { get; set; }
+
+    public string? Collaboration { get; set; }
+
+    public string? ReservedRoom { get; set; }
 
     public PostStatus Status { get; set; }
 
