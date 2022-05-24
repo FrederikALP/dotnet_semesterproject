@@ -1,42 +1,65 @@
-@model cbsStudents.Models.Entities.EventIndexVm
+@model IEnumerable<cbsStudents.Models.Entities.Event>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="d-flex justify-content-between">
-    <h4>Events</h4>
-    <a class="btn btn-primary" asp-action="create">New Event</a>
-</div>
+<h1>Index</h1>
 
-
-
-<form asp-controller="Events" asp-action="Index" method="get">
-    <p>
-        Title: <input type="text" name="SearchString" value=@Model.SearchString />
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-
-<div class="container">
-    <div class="row">
-        <div class="col-6 col-md-2">Event Title</div>
-        <div class="d-none d-md-block col-md-6 ">Event Text</div>
-        <div class="col-2 col-md-1">Event Location</div>
-        <div class="col-2 col-md-1">Event Date</div>
-        <div class="col-1">Status</div>
-        <div class="col-1"></div>
-    </div>
-    @foreach (var obj in Model.Events)
-    {
-        <div class="row grid-row">
-            <div class="col-6 col-md-2">@Html.DisplayFor(x => obj.EventTitle)</div>
-            <div class="d-none d-md-block col-md-6">@Html.DisplayFor(x => obj.EventText)</div>
-            <div class="col-2 col-md-1">@Html.DisplayFor(x => obj.Location)</div>
-            <div class="col-2 col-md-1">@Html.DisplayFor(x => obj.Created)</div>
-            <div class="col-1"><span class="badge bg-dark text-dark">@Html.DisplayFor(x => obj.Status)</span></div>
-            <div class="col-1"><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@obj.EventId">Edit</a></div>
-            <div class="col-1"><a class="btn btn-secondary" asp-action="Delete" asp-route-id="@obj.EventId">Delete</a></div>
-        </div>
-    }
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
