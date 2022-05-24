@@ -1,4 +1,8 @@
 @model cbsStudents.Models.Entities.PostIndexVm
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -35,7 +39,9 @@
             <div class="col-2 col-md-1">@Html.DisplayFor(x => post.Created)</div>
             <div class="col-2 col-md-1"></div>
             <div class="col-1"><span class="badge bg-dark text-dark">@Html.DisplayFor(x => post.Status)</span></div>
+            @if (@UserManager.GetUserId(User) == post.UserId){
             <div class="col-1"><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@post.Id">Edit</a></div>
+        }
         </div>
     }
 </div>
