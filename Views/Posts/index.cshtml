@@ -10,7 +10,9 @@
 
 <div class="d-flex justify-content-between">
     <h4>Posts</h4>
-    <a class="btn btn-primary" asp-action="create">New Post</a>
+    <a class="btn btn-primary" asp-action="create"> 
+        <i class="bi bi-plus-circle-fill"></i> &nbsp; New Post
+    </a>
 </div>
 
 
@@ -40,7 +42,7 @@
             <div class="col-2 col-md-1"></div>
             <div class="col-1"><span class="badge bg-dark text-dark">@Html.DisplayFor(x => post.Status)</span></div>
             @if (@UserManager.GetUserId(User) == post.UserId){
-            <div class="col-1"><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@post.Id">Edit</a></div>
+            <div class="col-1"><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@post.Id"><i class="bi bi-pencil-square"></i> &nbsp; Edit </a></div>
         }
         </div>
     }
