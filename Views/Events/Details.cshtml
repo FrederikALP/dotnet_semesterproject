@@ -1,10 +1,8 @@
-@model cbsStudents.Models.Entities.Event
+@model Event
 
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
 
 <div>
     <h4>Event</h4>
@@ -78,6 +76,19 @@
         </dd>
     </dl>
 </div>
+
+@foreach (var comment in Model.Comments)
+{
+    <div class="row">
+    <div class="col-md-4">
+        <div><p class="user-email">User Email: @comment.User</p>
+        </div>
+        <div><p class="user-comment">User Comment: @comment.Text</p>
+        </div>
+    </div>
+</div>
+}
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.EventId">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CbsStudents.Data;
 using cbsStudents.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace cbsStudents.Controllers
 {
@@ -36,6 +39,7 @@ namespace cbsStudents.Controllers
 
             var @event = await _context.Events
                 .Include(c => c.User)
+                .Include(c => c.Comments)
                 .FirstOrDefaultAsync(m => m.EventId == id);
             if (@event == null)
             {
