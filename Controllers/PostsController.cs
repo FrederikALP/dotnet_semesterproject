@@ -88,11 +88,48 @@ public class PostsController : Controller
         return View();
     }
 
+            // GET: Posts/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Posts == null)
+            {
+                return NotFound();
+            }
 
-    public IActionResult Test()
-    {
-        ViewBag.Jesper = "Jesper is here!";
-        return View();
-    }
+            var @post = await _context.Posts
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (@post == null)
+            {
+                return NotFound();
+            }
+
+            return View(@post);
+        }
+
+        // POST: Posts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Posts == null)
+            {
+                return Problem("Entity set 'CbsStudentsContext.Posts'  is null.");
+            }
+            var @post = await _context.Posts.FindAsync(id);
+            if (@post != null)
+            {
+                _context.Posts.Remove(@post);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool PostsExists(int id)
+        {
+          return _context.Posts.Any(e => e.Id == id);
+        }
+
 
 }
