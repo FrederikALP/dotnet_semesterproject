@@ -40,7 +40,7 @@
             <div class="d-none d-md-block col-md-6">@Html.DisplayFor(x => post.Text)</div>
             <div class="col-2 col-md-1">@Html.DisplayFor(x => post.Created)</div>
             <div class="col-2 col-md-1"></div>
-            <div class="col-1"><span class="badge bg-dark text-dark">@Html.DisplayFor(x => post.Status)</span></div>
+            <div class="col-1">@Html.DisplayFor(x => post.Status)</div>
             @if (@UserManager.GetUserId(User) == post.UserId){
             <div class="col-1"><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@post.Id"><i class="bi bi-pencil-square"></i> &nbsp; Edit </a></div>
         }

@@ -16,12 +16,14 @@
 
             @await Html.PartialAsync("_CreateEditPost")
         </form>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> 
+            <a class="btn btn-primary" asp-action="Index"><i class="bi bi-arrow-left"></i> &nbsp; Back to List</a>
+        </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 
 @foreach (var comment in Model.Comments)

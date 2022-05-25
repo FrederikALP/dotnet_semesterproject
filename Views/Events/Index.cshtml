@@ -4,11 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="d-flex justify-content-between">
+    <h4>Events</h4>
+    <a class="btn btn-primary" asp-action="create"> 
+        <i class="bi bi-plus-circle-fill"></i> &nbsp; New Event
+    </a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
