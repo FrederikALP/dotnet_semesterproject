@@ -19,7 +19,7 @@
 
 <form asp-controller="Posts" asp-action="Index" method="get">
     <p>
-        Title: <input type="text" name="SearchString" value=@Model.SearchString />
+        Title:<input type="text" name="SearchString" value=@Model.SearchString/>
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -29,9 +29,10 @@
         <div class="col-6 col-md-2">Title</div>
         <div class="d-none d-md-block col-md-6 ">Text</div>
         <div class="col-2 col-md-1">Created</div>
-        <div class="col-2 col-md-1">Activity</div>
         <div class="col-1">Status</div>
         <div class="col-1"></div>
+        <div class="col-1"></div>
+
     </div>
     @foreach (var post in Model.Posts)
     {
@@ -39,10 +40,10 @@
             <div class="col-6 col-md-2">@Html.DisplayFor(x => post.Title)</div>
             <div class="d-none d-md-block col-md-6">@Html.DisplayFor(x => post.Text)</div>
             <div class="col-2 col-md-1">@Html.DisplayFor(x => post.Created)</div>
-            <div class="col-2 col-md-1"></div>
             <div class="col-1">@Html.DisplayFor(x => post.Status)</div>
             @if (@UserManager.GetUserId(User) == post.UserId){
             <div class="col-1"><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@post.Id"><i class="bi bi-pencil-square"></i> &nbsp; Edit </a></div>
+            <div class="col-1"><a class="btn btn-secondary" asp-action="Delete" asp-route-id="@post.Id"> <i class="bi bi-trash3"></i> &nbsp; Delete</a></div>
         }
         </div>
     }
