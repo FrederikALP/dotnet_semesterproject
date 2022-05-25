@@ -23,7 +23,9 @@ namespace CbsStudents.Data
             this.UsersSeed(builder);
             this.SeedPosts(builder);
             this.SeedComments(builder);
+            this.SeedEventComments(builder);
             this.SeedEvents(builder);
+            
         }
 
         public DbSet<Post> Posts { get; set; }
@@ -31,7 +33,7 @@ namespace CbsStudents.Data
         //public DbSet<cbsStudents.Models.Entities.Event> Event { get; set; }
 
         public DbSet<cbsStudents.Models.Entities.Comment> Comment { get; set; }
-
+        public DbSet<cbsStudents.Models.Entities.EventComment> EventComment { get; set; }
 
         private void UsersSeed(ModelBuilder builder)
         {
@@ -86,5 +88,15 @@ namespace CbsStudents.Data
                 new Comment() { CommentId = 4, Text = "Bye", TimeStamp = DateTime.Now, PostId = 3, UserId = "1" }
             );
         }
+
+        private void SeedEventComments(ModelBuilder builder)
+        {
+            builder.Entity<EventComment>().HasData(
+                new EventComment() { EventCommentId = 1, Text = "Hello", TimeStamp = DateTime.Now, EventId = 1, UserId = "1" },
+                new EventComment() { EventCommentId = 2, Text = "Hello again", TimeStamp = DateTime.Now, EventId = 1, UserId = "2" },
+                new EventComment() { EventCommentId = 3, Text = "Hi", TimeStamp = DateTime.Now, EventId = 2, UserId = "1" },
+                new EventComment() { EventCommentId = 4, Text = "Bye", TimeStamp = DateTime.Now, EventId = 3, UserId = "1" }
+            );
+        } 
     }
 }

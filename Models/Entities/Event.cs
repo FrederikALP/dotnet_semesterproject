@@ -34,6 +34,8 @@ public class Event
 
     public PostStatus Status { get; set; }
 
+    public List<EventComment> Comments { get; set; }
+
     public string UserId { get; set; }
     public IdentityUser? User { get; set; }
 
