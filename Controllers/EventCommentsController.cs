@@ -7,23 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CbsStudents.Data;
 using cbsStudents.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace cbsStudents.Controllers
 {
     public class EventCommentsController : Controller
     {
         private readonly CbsStudentsContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EventCommentsController(CbsStudentsContext context)
+        public EventCommentsController(CbsStudentsContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
+
         }
 
         // GET: EventComments
         public async Task<IActionResult> Index()
         {
-            var cbsStudentsContext = _context.EventComment.Include(e => e.Event);
-            //var cbsStudentsContext = _context.EventComment.Include(e => e.Event).Include(e => e.User);
+
+            var cbsStudentsContext = _context.EventComment.Include(e => e.Event).Include(e => e.User);
             return View(await cbsStudentsContext.ToListAsync());
         }
 
@@ -37,7 +42,7 @@ namespace cbsStudents.Controllers
 
             var eventComment = await _context.EventComment
                 .Include(e => e.Event)
-               // .Include(e => e.User)
+                .Include(e => e.User)
                 .FirstOrDefaultAsync(m => m.EventCommentId == id);
             if (eventComment == null)
             {
@@ -50,8 +55,7 @@ namespace cbsStudents.Controllers
         // GET: EventComments/Create
         public IActionResult Create()
         {
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText");
-       //     ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -68,8 +72,7 @@ namespace cbsStudents.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText", eventComment.EventId);
-           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
             return View(eventComment);
         }
 
@@ -86,8 +89,7 @@ namespace cbsStudents.Controllers
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText", eventComment.EventId);
-           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
             return View(eventComment);
         }
 
@@ -124,8 +126,7 @@ namespace cbsStudents.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText", eventComment.EventId);
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
             return View(eventComment);
         }
 
@@ -138,8 +139,7 @@ namespace cbsStudents.Controllers
             }
 
             var eventComment = await _context.EventComment
-                .Include(e => e.Event)
-                //.Include(e => e.User)
+                .Include(e => e.User)
                 .FirstOrDefaultAsync(m => m.EventCommentId == id);
             if (eventComment == null)
             {

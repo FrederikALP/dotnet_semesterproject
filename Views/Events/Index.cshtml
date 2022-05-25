@@ -1,4 +1,8 @@
 @model IEnumerable<cbsStudents.Models.Entities.Event>
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -11,12 +15,11 @@
         <i class="bi bi-plus-circle-fill"></i> &nbsp; New Event
     </a>
 </div>
-
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EventTitle)
+                @Html.DisplayNameFor(Model => Model.EventTitle)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventText)
@@ -64,8 +67,10 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
+                @if (@UserManager.GetUserId(User) == item.UserId){
                 <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.EventId"> <i class="bi bi-pencil-square"></i> &nbsp; Edit</a>
                 <a class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.EventId"> <i class="bi bi-trash3"></i> &nbsp; Delete</a>
+                }
             </td>
         </tr>
 }
