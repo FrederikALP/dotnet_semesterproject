@@ -9,6 +9,7 @@ using CbsStudents.Data;
 using cbsStudents.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace cbsStudents.Controllers
 {
@@ -53,9 +54,12 @@ namespace cbsStudents.Controllers
         }
 
         // GET: EventComments/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewBag.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.EventId = id;
+            
             return View();
         }
 
@@ -64,16 +68,31 @@ namespace cbsStudents.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventCommentId,Text,TimeStamp,EventId,UserId")] EventComment eventComment)
+        public async Task<IActionResult> Create([Bind("EventCommentId,Text,EventId")] EventComment eventComment)
+        //public async Task<IActionResult> Create([Bind("EventCommentId,Text,TimeStamp,EventId,UserId")] EventComment eventComment)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 _context.Add(eventComment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
-            return View(eventComment);
+            return View(eventComment);*/
+
+            if (ModelState.IsValid)
+            {
+                IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                eventComment.UserId = user.Id;
+                eventComment.TimeStamp = DateTime.Now;
+                //eventComment.EventId = ViewBag.EventId;
+                _context.Add(eventComment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index","Event");            
+            }
+            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventComment.EventId);
+            //ViewData["UserId"] = new SelectList(_context.IdentityUserClaim, "Id", "Id", eventComment.UserId);
+            return RedirectToAction("Index","Events"); 
         }
 
         // GET: EventComments/Edit/5
