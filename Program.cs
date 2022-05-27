@@ -1,6 +1,37 @@
 using CbsStudents.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft;
+
+
+/*var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddMvc().AddJsonOptions(o =>
+{
+    o.JsonSerializerOptions.PropertyNamingPolicy = null;
+    o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+});
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => 
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+builder.Services.AddDbContext<CbsStudentsContext>(options =>
+
+    options.UseSqlite(builder.Configuration.GetConnectionString("CbsStudentsContext")));
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<CbsStudentsContext>();builder.Services.AddDbContext<CbsStudentsContext>(options =>
+    options.UseSqlServer("CbsStudentsContext"));
+builder.Services.AddDbContext<CbsStudentsContext>(options =>
+
+    options.UseSqlite(builder.Configuration.GetConnectionString("CbsStudentsContext")));
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+ builder.Services.AddDbContext<CbsStudentsContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("CbsStudentsContext")));
+
+var app = builder.Build();*/
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +45,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 .AddDefaultUI()
 .AddEntityFrameworkStores<CbsStudentsContext>();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => 
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
