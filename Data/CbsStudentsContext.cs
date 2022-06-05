@@ -25,14 +25,10 @@ namespace CbsStudents.Data
             this.SeedComments(builder);
             this.SeedEvents(builder);
             this.SeedEventComments(builder);
-
-            
         }
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Event> Events { get; set; }
-        //public DbSet<cbsStudents.Models.Entities.Event> Event { get; set; }
-
         public DbSet<cbsStudents.Models.Entities.Comment> Comment { get; set; }
         public DbSet<cbsStudents.Models.Entities.EventComment> EventComment { get; set; }
 
