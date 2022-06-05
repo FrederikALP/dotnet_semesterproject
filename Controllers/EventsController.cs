@@ -56,7 +56,6 @@ namespace cbsStudents.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -75,7 +74,6 @@ namespace cbsStudents.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
             return View(@event);
         }
 

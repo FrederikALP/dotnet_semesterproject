@@ -23,8 +23,9 @@ namespace CbsStudents.Data
             this.UsersSeed(builder);
             this.SeedPosts(builder);
             this.SeedComments(builder);
-            this.SeedEventComments(builder);
             this.SeedEvents(builder);
+            this.SeedEventComments(builder);
+
             
         }
 
