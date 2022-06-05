@@ -56,7 +56,7 @@ namespace cbsStudents.Controllers
         // GET: EventComments/Create
         public IActionResult Create(int id)
         {
-            ViewBag.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             ViewBag.EventId = id;
             
             return View();
@@ -69,16 +69,16 @@ namespace cbsStudents.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EventCommentId,Text,EventId,UserId")] EventComment @eventComment)
         {
-
             if (ModelState.IsValid)
             {
+                IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                @eventComment.UserId = user.Id;
                 @eventComment.TimeStamp = DateTime.Now;
                 _context.Add(@eventComment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index","Events");            
+                ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventComment.EventId); 
+                return RedirectToAction("Index","Events");         
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventComment.EventId);
-            ViewData["UserId"] = new SelectList(_userManager.GetUserId(User), "Id", "Id", eventComment.UserId);
             return RedirectToAction("Index","Events"); 
         }
 
