@@ -32,8 +32,12 @@ namespace cbsStudents.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
-
+            var post = await _context.Posts    
+                            .Include(c => c.User)
+                            .Include(c => c.Comments)
+                            .ThenInclude(c => c.User)
+                            .FirstOrDefaultAsync(c => c.Id == id);
+                            
             if (post == null)
             {
                 return NotFound();
