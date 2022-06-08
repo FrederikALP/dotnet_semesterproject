@@ -7,23 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CbsStudents.Data;
 using cbsStudents.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace cbsStudents.Controllers
 {
     public class EventCommentsController : Controller
     {
         private readonly CbsStudentsContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EventCommentsController(CbsStudentsContext context)
+        public EventCommentsController(CbsStudentsContext context, UserManager<IdentityUser> userManager)
         {
-            _context = context;
+            this._userManager = userManager;
+            this._context = context;
+
         }
 
         // GET: EventComments
         public async Task<IActionResult> Index()
         {
-            var cbsStudentsContext = _context.EventComment.Include(e => e.Event);
-            //var cbsStudentsContext = _context.EventComment.Include(e => e.Event).Include(e => e.User);
+
+            var cbsStudentsContext = _context.EventComment.Include(e => e.Event).Include(e => e.User);
             return View(await cbsStudentsContext.ToListAsync());
         }
 
@@ -37,7 +43,7 @@ namespace cbsStudents.Controllers
 
             var eventComment = await _context.EventComment
                 .Include(e => e.Event)
-               // .Include(e => e.User)
+                .Include(e => e.User)
                 .FirstOrDefaultAsync(m => m.EventCommentId == id);
             if (eventComment == null)
             {
@@ -48,10 +54,11 @@ namespace cbsStudents.Controllers
         }
 
         // GET: EventComments/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText");
-       //     ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+
+            ViewBag.EventId = id;
+            
             return View();
         }
 
@@ -60,17 +67,19 @@ namespace cbsStudents.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventCommentId,Text,TimeStamp,EventId,UserId")] EventComment eventComment)
+        public async Task<IActionResult> Create([Bind("EventCommentId,Text,EventId,UserId")] EventComment @eventComment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(eventComment);
+                IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                @eventComment.UserId = user.Id;
+                @eventComment.TimeStamp = DateTime.Now;
+                _context.Add(@eventComment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventComment.EventId); 
+                return RedirectToAction("Index","Events");         
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText", eventComment.EventId);
-           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
-            return View(eventComment);
+            return RedirectToAction("Index","Events"); 
         }
 
         // GET: EventComments/Edit/5
@@ -86,8 +95,7 @@ namespace cbsStudents.Controllers
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText", eventComment.EventId);
-           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
             return View(eventComment);
         }
 
@@ -97,7 +105,6 @@ namespace cbsStudents.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EventCommentId,Text,TimeStamp,EventId")] EventComment eventComment)
-        //public async Task<IActionResult> Edit(int id, [Bind("EventCommentId,Text,TimeStamp,EventId,UserId")] EventComment eventComment)
         {
             if (id != eventComment.EventCommentId)
             {
@@ -124,8 +131,7 @@ namespace cbsStudents.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventText", eventComment.EventId);
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", eventComment.UserId);
             return View(eventComment);
         }
 
@@ -138,8 +144,7 @@ namespace cbsStudents.Controllers
             }
 
             var eventComment = await _context.EventComment
-                .Include(e => e.Event)
-                //.Include(e => e.User)
+                .Include(e => e.User)
                 .FirstOrDefaultAsync(m => m.EventCommentId == id);
             if (eventComment == null)
             {

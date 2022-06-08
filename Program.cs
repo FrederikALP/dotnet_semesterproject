@@ -1,7 +1,7 @@
 using CbsStudents.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-
+using Newtonsoft;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 .AddDefaultUI()
 .AddEntityFrameworkStores<CbsStudentsContext>();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => 
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

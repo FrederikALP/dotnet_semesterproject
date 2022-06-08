@@ -8,7 +8,7 @@ public class EventComment
     public int EventCommentId { get; set; }
     public string Text { get; set; }
     public DateTime TimeStamp { get; set; }
-
+    
     public int EventId { get; set; }
     public Event Event { get; set; }
 

@@ -13,16 +13,20 @@ using Microsoft.AspNetCore.Identity;
 
 namespace cbsStudents.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private readonly CbsStudentsContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EventsController(CbsStudentsContext context)
+        public EventsController(CbsStudentsContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: Events
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var cbsStudentsContext = _context.Events.Include(c => c.User);
@@ -52,7 +56,6 @@ namespace cbsStudents.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -61,15 +64,16 @@ namespace cbsStudents.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventText,Location,StartDate,EndDate,PhotoURL,Responsible,Collaboration,ReservedRoom,Status,UserId")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventText,Location,StartDate,EndDate,PhotoURL,Responsible,Collaboration,ReservedRoom,Status")] Event @event)
         {
             if (ModelState.IsValid)
             {
+                IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                @event.UserId = user.Id;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
             return View(@event);
         }
 
