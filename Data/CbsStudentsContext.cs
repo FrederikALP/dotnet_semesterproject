@@ -82,7 +82,7 @@ namespace CbsStudents.Data
                 new Comment() { CommentId = 1, Text = "Hello", TimeStamp = DateTime.Now, PostId = 1, UserId = "1" },
                 new Comment() { CommentId = 2, Text = "Hello again", TimeStamp = DateTime.Now, PostId = 1, UserId = "2" },
                 new Comment() { CommentId = 3, Text = "Hi", TimeStamp = DateTime.Now, PostId = 2, UserId = "1" },
-                new Comment() { CommentId = 4, Text = "Bye", TimeStamp = DateTime.Now, PostId = 3, UserId = "1" }
+                new Comment() { CommentId = 4, Text = "Bye", TimeStamp = DateTime.Now, PostId = 4, UserId = "1" }
             );
         }
 
