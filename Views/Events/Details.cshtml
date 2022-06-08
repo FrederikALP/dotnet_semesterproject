@@ -1,4 +1,8 @@
 @model Event
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
@@ -90,7 +94,9 @@
 }
 
 <div>
+    @if (@UserManager.GetUserId(User) == Model.UserId){
     <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.EventId"><i class="bi bi-pencil-square"></i> &nbsp; Edit</a> 
+    }
     <a class="btn btn-primary" asp-action="Index"><i class="bi bi-arrow-left"></i> &nbsp; Back to List</a>
     <a class="btn btn-primary" asp-action="Create" asp-route-id="@Model.EventId" asp-controller="EventComments">Make a comment</a>
 </div>
