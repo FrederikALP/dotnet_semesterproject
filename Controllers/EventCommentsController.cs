@@ -9,7 +9,6 @@ using CbsStudents.Data;
 using cbsStudents.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace cbsStudents.Controllers
 {
