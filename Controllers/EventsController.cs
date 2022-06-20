@@ -133,6 +133,7 @@ namespace cbsStudents.Controllers
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null || _context.Events == null)
             {
                 return NotFound();
@@ -150,10 +151,12 @@ namespace cbsStudents.Controllers
         }
 
         // POST: Events/Delete/5
+        //Et eksempel på user validation på controller niveau er blevet implementeret
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             if (_context.Events == null)
             {
                 return Problem("Entity set 'CbsStudentsContext.Events'  is null.");
@@ -161,7 +164,11 @@ namespace cbsStudents.Controllers
             var @event = await _context.Events.FindAsync(id);
             if (@event != null)
             {
-                _context.Events.Remove(@event);
+                if (user == @event.User)
+                {
+                    _context.Events.Remove(@event);
+                }
+                else return RedirectToAction(nameof(Index));
             }
             
             await _context.SaveChangesAsync();
